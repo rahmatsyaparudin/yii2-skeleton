@@ -61,4 +61,4 @@ copyDir($vendorPath, $rootPath);
 mergeComposerDependencies($rootPath . 'composer.json', $vendorPath . 'composer.json');
 
 echo "\e[32mSkeleton installed/updated successfully.\e[0m\n";
-echo "\e[33mNext step:\e[0m Run \e[36mcomposer update\e[0m to install new dependencies.\n";
+echo "\e[36mNext step:\e[0m Run \e[33mcomposer update\e[0m to install new dependencies.\n";
