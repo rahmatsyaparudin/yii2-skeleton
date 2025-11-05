@@ -2,11 +2,10 @@
 $vendorPath = __DIR__ . '/../vendor/rahmatsyaparudin/yii2-api-skeleton/';
 $rootPath = __DIR__ . '/../';
 
-$skipFiles = ['composer.json', 'README.md', '.env'];
-
 function copyDir($src, $dst) {
     $dir = opendir($src);
     @mkdir($dst, 0755, true);
+    $skipFiles = ['composer.json', 'README.md', '.env'];
 
     while(false !== ($file = readdir($dir))) {
         if (($file != '.') && ($file != '..')) {
