@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use yii\rest\Controller;
 use yii\web\Response;
+use yii\filters\ContentNegotiator;
 
 class SiteController extends Controller
 {
@@ -15,7 +16,7 @@ class SiteController extends Controller
     {
         return [
             'contentNegotiator' => [
-                'class' => 'yii\filters\ContentNegotiator',
+                'class' => ContentNegotiator::class,
                 'formats' => [
                     'application/json' => Response::FORMAT_JSON,
                 ],
