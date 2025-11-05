@@ -31,3 +31,37 @@ function copyDir($src, $dst) {
 copyDir($vendorPath, $rootPath);
 echo "\e[32mSkeleton installed/updated successfully.\e[0m\n";
 
+/**
+ * Merge composer dependencies from skeleton into root composer.json
+ */
+function mergeComposerDependencies($rootComposer, $skeletonComposer) {
+    if (!file_exists($skeletonComposer) || !file_exists($rootComposer)) {
+        echo "\e[33mWarning: composer.json not found for merging.\e[0m\n";
+        return;
+    }
+
+    $rootData     = json_decode(file_get_contents($rootComposer), true);
+    $skeletonData = json_decode(file_get_contents($skeletonComposer), true);
+
+    foreach (['require'] as $section) {
+        if (isset($skeletonData[$section])) {
+            foreach ($skeletonData[$section] as $pkg => $ver) {
+                if (!isset($rootData[$section][$pkg])) {
+                    $rootData[$section][$pkg] = $ver;
+                    echo "\e[36mAdded $pkg ($ver) to $section\e[0m\n";
+                }
+            }
+        }
+    }
+
+    file_put_contents(
+        $rootComposer,
+        json_encode($rootData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n"
+    );
+}
+
+// --- Jalankan proses ---
+copyDir($vendorPath, $rootPath, $skipFiles);
+mergeComposerDependencies($rootPath . 'composer.json', $vendorPath . 'composer.json');
+
+echo "\e[32mSkeleton installed/updated successfully.\e[0m\n";

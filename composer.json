@@ -2,5 +2,15 @@
     "name": "rahmatsyaparudin/yii2-api-skeleton",
     "description": "Yii2 skeleton API project",
     "type": "project",
-    "require": {}
+    "require": {
+        "php": ">=7.4.0",
+        "yiisoft/yii2": "^2.0.53",
+        "yiisoft/yii2-bootstrap5": "^2.0.3",
+        "yiisoft/yii2-symfonymailer": "^2.0.3",
+        "yiisoft/db-pgsql": "^1.0",
+        "mongodb/mongodb": "^1.20",
+        "firebase/php-jwt": "^6.10",
+        "paragonie/sodium_compat": "^2.0",
+        "vlucas/phpdotenv": "^5.6"
+    }
 }

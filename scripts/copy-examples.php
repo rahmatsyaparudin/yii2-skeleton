@@ -26,6 +26,12 @@ $filesToCopy = [
 $skeletonPath = __DIR__ . '/../vendor/rahmatsyaparudin/yii2-api-skeleton/';
 $rootPath = __DIR__ . '/../';
 
+$flagFile = $rootPath . '.skeleton_examples_copied';
+if (file_exists($flagFile)) {
+    echo "\e[33mExample files were already copied. Skipping...\e[0m\n";
+    exit(0);
+}
+
 foreach ($filesToCopy as $src => $dst) {
     $fullSrc = $skeletonPath . $src;
     $fullDst = $rootPath . $dst;
@@ -44,5 +50,5 @@ foreach ($filesToCopy as $src => $dst) {
     }
 }
 
-
+file_put_contents($flagFile, date(DATE_ATOM));
 echo "\e[32mExample files copied successfully!\e[0m\n";
