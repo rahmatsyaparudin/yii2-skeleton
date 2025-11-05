@@ -14,6 +14,7 @@ $modules = require __DIR__ . '/modules.php';
 $mongodb = include __DIR__ . '/mongodb.php';
 $urlManagerFile = include __DIR__ . '/url_manager.php';
 $dbManagerFile = include __DIR__ . '/db_manager.php';
+$mailerFile = include __DIR__ . '/mailer.php';
 
 $bootstrap = [
     'log',
@@ -53,7 +54,7 @@ $user = [
     'loginUrl' => null
 ];
 
-$mailer = [
+$mailer = $mailerFile ?: [
     'class' => \yii\symfonymailer\Mailer::class,
     'viewPath' => '@app/mail',
     #send all mails to a file by default.
