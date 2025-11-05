@@ -8,6 +8,7 @@ $filesToCopy = [
     ".env.example" => ".env",
     "php.ini.example" => "php.ini",
     "yii.example" => "yii",
+    "README.md.example" => "README.md",
     "translation/id/app.php.example" => "translation/id/app.php",
     "translation/en/app.php.example" => "translation/en/app.php",
     "helpers/Constants.php.example" => "helpers/Constants.php",
@@ -43,4 +44,5 @@ foreach ($filesToCopy as $src => $dst) {
     }
 }
 
-echo "Example files copied successfully!\n";
+
+echo "\e[32mExample files copied successfully!\e[0m\n";

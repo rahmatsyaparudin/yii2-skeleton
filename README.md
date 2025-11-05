@@ -20,6 +20,7 @@ Open your project's `composer.json` and add the following sections:
 },
 "scripts": {
     "skeleton-update": [
+        "composer update rahmatsyaparudin/yii2-api-skeleton --ignore-platform-reqs",
         "php scripts/install-skeleton.php"
     ],
     "skeleton-copy-examples": [
@@ -44,7 +45,6 @@ Run the custom Composer script to install the skeleton files:
 composer skeleton-update
 ```
 
-
 This command will set up the necessary folder structure and example configurations in your project.
 
 ## 4. Copy example files (first-time setup only)
@@ -57,6 +57,16 @@ This will copy example configuration and code files to your project for referenc
 ```bash
 composer skeleton-copy-examples
 ```
+
+## 5. Dependensi Composer Utama
+
+Pastikan proyek ini memiliki paket-paket berikut di `composer.json` Anda:
+
+- `yiisoft/db-pgsql`: `^1.0`
+- `mongodb/mongodb`: `^1.20`
+- `firebase/php-jwt`: `^6.10`
+- `paragonie/sodium_compat`: `^2.0`
+- `vlucas/phpdotenv`: `^5.6`
 
 Apply updates or re-install skeleton components without affecting your existing project code.
 

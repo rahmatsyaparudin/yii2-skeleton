@@ -29,4 +29,5 @@ function copyDir($src, $dst) {
 }
 
 copyDir($vendorPath, $rootPath);
-echo "Skeleton installed/updated successfully.\n";
+echo "\e[32mSkeleton installed/updated successfully.\e[0m\n";
+
