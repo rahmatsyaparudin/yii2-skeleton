@@ -21,6 +21,8 @@ $filesToCopy = [
     "config/setup/params.php" => "config/params.php",
     "config/setup/params_app.php" => "config/params_app.php",
     "config/setup/url_manager.php" => "config/url_manager.php",
+    "config/setup/db_manager.php" => "config/db_manager.php",
+    "config/setup/mailer.php" => "config/mailer.php",
 ];
 
 $skeletonPath = __DIR__ . '/../vendor/rahmatsyaparudin/yii2-api-skeleton/';
