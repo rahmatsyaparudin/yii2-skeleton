@@ -28,9 +28,6 @@ function copyDir($src, $dst) {
     closedir($dir);
 }
 
-copyDir($vendorPath, $rootPath);
-echo "\e[32mSkeleton installed/updated successfully.\e[0m\n";
-
 /**
  * Merge composer dependencies from skeleton into root composer.json
  */
@@ -60,8 +57,7 @@ function mergeComposerDependencies($rootComposer, $skeletonComposer) {
     );
 }
 
-// --- Jalankan proses ---
-copyDir($vendorPath, $rootPath, $skipFiles);
+copyDir($vendorPath, $rootPath);
 mergeComposerDependencies($rootPath . 'composer.json', $vendorPath . 'composer.json');
 
 echo "\e[32mSkeleton installed/updated successfully.\e[0m\n";
