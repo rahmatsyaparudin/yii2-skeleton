@@ -1,0 +1,46 @@
+<?php
+/**
+ * Copy example files to target location and remove the `.example` extension
+ */
+
+$filesToCopy = [
+    // format: "source relative to skeleton" => "target relative to root"
+    ".env.example" => ".env",
+    "php.ini.example" => "php.ini",
+    "yii.example" => "yii",
+    "translation/id/app.php.example" => "translation/id/app.php",
+    "translation/en/app.php.example" => "translation/en/app.php",
+    "helpers/Constants.php.example" => "helpers/Constants.php",
+    "exceptions/ErrorMessage.php.example" => "exceptions/ErrorMessage.php",
+    "web/index.php.example" => "web/index.php",
+    "config/setup/console.php" => "config/console.php",
+    "config/setup/web.php" => "config/web.php",
+    "config/setup/db.php" => "config/db.php",
+    "config/setup/mongodb.php" => "config/mongodb.php",
+    "config/setup/params.php" => "config/params.php",
+    "config/setup/params_app.php" => "config/params_app.php",
+    "config/setup/url_manager.php" => "config/url_manager.php",
+];
+
+$skeletonPath = __DIR__ . '/../vendor/rahmatsyaparudin/yii2-api-skeleton/';
+$rootPath = __DIR__ . '/../';
+
+foreach ($filesToCopy as $src => $dst) {
+    $fullSrc = $skeletonPath . $src;
+    $fullDst = $rootPath . $dst;
+
+    // pastikan folder tujuan ada
+    $dir = dirname($fullDst);
+    if (!is_dir($dir)) {
+        mkdir($dir, 0755, true);
+    }
+
+    if (file_exists($fullSrc)) {
+        copy($fullSrc, $fullDst);
+        echo "Copied $src → $dst\n";
+    } else {
+        echo "Warning: $src not found in skeleton\n";
+    }
+}
+
+echo "Example files copied successfully!\n";

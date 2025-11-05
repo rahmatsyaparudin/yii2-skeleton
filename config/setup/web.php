@@ -9,8 +9,11 @@
 
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
-$mongodbFile = __DIR__ . '/mongodb.php';
-$mongodb = file_exists($mongodbFile) ? require $mongodbFile : [];
+$modules = require __DIR__ . '/modules.php';
+
+$mongodb = include __DIR__ . '/mongodb.php';
+$urlManagerFile = include __DIR__ . '/url_manager.php';
+$dbManagerFile = include __DIR__ . '/db_manager.php';
 
 $bootstrap = [
     'log',
@@ -31,7 +34,7 @@ $request = [
     ]
 ];
 
-$urlManager = [
+$urlManager = $urlManagerFile ?: [
     'enablePrettyUrl' => true,
     'showScriptName' => false,
     'rules' => [
@@ -40,6 +43,8 @@ $urlManager = [
         '/v1/index' => 'site/index',
     ],
 ];
+
+$dbManager = $dbManagerFile ?: [];
 
 $user = [
     'identityClass' => 'app\models\User',
@@ -64,96 +69,94 @@ $config = [
     'language' => $params['language']['default'],
     'aliases' => $aliases,
     'params' => $params,
-    'modules' => [
-        'v1' => [
-            'class' => 'app\modules\v1\Module',
-        ],
-    ],
-    'components' => [
-        'db' => $db,
-        'mongodb' => $mongodb ?: null,
-        'user' => $user,
-        'request' => $request,
-        'urlManager' => $urlManager,
-        'mailer' => $mailer,
-        'coreAPI' => [
-            'class' => 'app\core\CoreAPI',
-        ],
-        'response' => [
-            'class' => 'yii\web\Response',
-            'on beforeSend' => function ($event) {
-                $response = $event->sender;
-
-                if (!YII_ENV_DEV){
-                    if ($response->data !== null && Yii::$app->request->get('suppress_response_code')) {
-                        $response->data = [
-                            'success' => $response->isSuccessful,
-                            'data' => $response->data,
-                        ];
-                        $response->statusCode = 200;
-                    } else {
-                        $response->data['success'] = $response->isSuccessful;
-                        unset($response->data['type']);
-
-                        if (!$response->isSuccessful) {
-                            unset($response->data['name']);
-                        }
-
-                        if ($response->statusCode == 405) {
-                            unset($response->data['status']);
-                            $response->data['errors'] = [];
-                            $response->data['code'] = $response->statusCode;
-                        }
-                    }
-                }
-            },
-        ],
-        'errorHandler' => [
-            // 'errorAction' => 'site/error',
-            'class' => 'app\core\CoreErrorHandler',
-        ],
-        'pagination' => [
-            'class' => 'yii\data\Pagination',
-            'defaultPageSize' => 10,
-        ],
-        'cache' => [
-            'class' => 'yii\caching\FileCache',
-        ],
-        'i18n' => [
-            'translations' => [
-                'app' => [
-                    'class' => 'app\core\CoreMessageSource',
-                    'basePath' => '@app/translation',
-                    'fileMap' => [
-                        'app' => 'app.php',
+    'modules' => $modules,
+    'components' => array_merge($dbManager, 
+        [
+            'db' => $db,
+            'mongodb' => $mongodb ?: null,
+            'user' => $user,
+            'request' => $request,
+            'urlManager' => $urlManager,
+            'mailer' => $mailer,
+            'coreAPI' => [
+                'class' => 'app\core\CoreAPI',
+            ],
+            'errorHandler' => [
+                // 'errorAction' => 'site/error',
+                'class' => 'app\core\CoreErrorHandler',
+            ],
+            'pagination' => [
+                'class' => 'yii\data\Pagination',
+                'defaultPageSize' => 10,
+            ],
+            'cache' => [
+                'class' => 'yii\caching\FileCache',
+            ],
+            'i18n' => [
+                'translations' => [
+                    'app' => [
+                        'class' => 'app\core\CoreMessageSource',
+                        'basePath' => '@app/translation',
+                        'fileMap' => [
+                            'app' => 'app.php',
+                        ],
                     ],
                 ],
             ],
-        ],
-        'log' => [
-            'traceLevel' => YII_DEBUG ? 3 : 1,
-            'targets' => [
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => YII_ENV_DEV ? ['error', 'warning'] : ['error'],
-                    'categories' => ['application'],
-                    'logFile' => '@runtime/logs/app.log',
-                    'logVars' => [],
-                    'maxFileSize' => 1024 * 2,
-                    'maxLogFiles' => 10,
-                ],
-                [
-                    'class' => 'yii\log\FileTarget',
-                    'levels' => ['info'],
-                    'categories' => ['yii\db\Command::execute'],
-                    'logFile' => '@runtime/logs/sql.log',
-                    'logVars' => [],
-                    'maxFileSize' => 1024 * 2,
-                    'maxLogFiles' => 5,
+            'log' => [
+                'traceLevel' => YII_DEBUG ? 3 : 1,
+                'targets' => [
+                    [
+                        'class' => 'yii\log\FileTarget',
+                        'levels' => YII_ENV_DEV ? ['error', 'warning'] : ['error'],
+                        'categories' => ['application'],
+                        'logFile' => '@runtime/logs/app.log',
+                        'logVars' => [],
+                        'maxFileSize' => 1024 * 2,
+                        'maxLogFiles' => 10,
+                    ],
+                    [
+                        'class' => 'yii\log\FileTarget',
+                        'levels' => ['info'],
+                        'categories' => ['yii\db\Command::execute'],
+                        'logFile' => '@runtime/logs/sql.log',
+                        'logVars' => [],
+                        'maxFileSize' => 1024 * 2,
+                        'maxLogFiles' => 5,
+                    ],
                 ],
             ],
+            'response' => [
+                'class' => 'yii\web\Response',
+                'on beforeSend' => function ($event) {
+                    $response = $event->sender;
+
+                    if (!YII_ENV_DEV){
+                        if ($response->data !== null && Yii::$app->request->get('suppress_response_code')) {
+                            $response->data = [
+                                'success' => $response->isSuccessful,
+                                'data' => $response->data,
+                            ];
+                            $response->statusCode = 200;
+                        } else {
+                            $response->data['success'] = $response->isSuccessful;
+                            unset($response->data['type']);
+
+                            if (!$response->isSuccessful) {
+                                unset($response->data['name']);
+                            }
+
+                            if ($response->statusCode == 405) {
+                                unset($response->data['status']);
+                                $response->data['errors'] = [];
+                                $response->data['code'] = $response->statusCode;
+                            }
+                        }
+                    }
+                },
+            ],
         ],
-    ],
+    ),
     'on beforeAction' => function ($event ) use ($params) {
         $req = Yii::$app->request->getBodyParams();
         if (isset($req['language'])) {

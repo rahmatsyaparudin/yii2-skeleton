@@ -1,6 +1,6 @@
 {
-    "name": "rahmatsyaparudin/yii2-skeleton",
-    "description": "Yii2 skeleton project",
+    "name": "rahmatsyaparudin/yii2-api-skeleton",
+    "description": "Yii2 skeleton API project",
     "type": "project",
     "require": {}
 }
