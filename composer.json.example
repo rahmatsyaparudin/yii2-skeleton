@@ -1,20 +1,30 @@
 {
-    "name": "rahmatsyaparudin/yii2-boilerplate",
-    "description": "Yii2 Boilerplate",
+    "name": "Yii2 API Boilerplate",
+    "description": "Yii2 API Boilerplate",
     "keywords": [],
     "homepage": "https://github.com/rahmatsyaparudin/yii2-boilerplate",
     "type": "project",
     "license": "BSD-3-Clause",
     "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/rahmatsyaparudin/yii2-api-skeleton.git"
+        }
+    ],
     "require": {
         "php": ">=7.4.0",
         "yiisoft/yii2": "^2.0.53",
         "yiisoft/yii2-bootstrap5": "^2.0.3",
         "yiisoft/yii2-symfonymailer": "^2.0.3",
-        "firebase/php-jwt": "^6.10",
-        "paragonie/sodium_compat": "^2.0",
         "yiisoft/db-pgsql": "^1.0",
         "mongodb/mongodb": "^1.20",
+        "firebase/php-jwt": "^6.10",
+        "paragonie/sodium_compat": "^2.0",
         "vlucas/phpdotenv": "^5.6"
     },
     "require-dev": {
@@ -27,7 +37,8 @@
         "codeception/module-yii2": "^1.1",
         "codeception/module-filesystem": "^3.0 || ^2.0 || ^1.1",
         "codeception/verify": "^3.0 || ^2.2",
-        "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4"
+        "symfony/browser-kit": "^6.0 || >=2.7 <=4.2.4",
+        "rahmatsyaparudin/yii2-skeleton": "dev-main"
     },
     "config": {
         "optimize-autoloader": true,
@@ -51,6 +62,12 @@
         "post-create-project-cmd": [
             "yii\\composer\\Installer::postCreateProject",
             "yii\\composer\\Installer::postInstall"
+        ],
+        "skeleton-update": [
+            "php scripts/install-skeleton.php"
+        ],
+        "skeleton-copy-examples": [
+            "php scripts/copy-examples.php"
         ]
     },
     "extra": {
@@ -68,11 +85,5 @@
                 "config/web.php"
             ]
         }
-    },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+    }
 }
