@@ -34,7 +34,7 @@ Open your project's `composer.json` and add the following sections:
 Copy the `scripts` folder from the package to your project root:
 
 ```bash
-cp -r vendor/rahmatsyaparudin/yii2-api-skeleton/scripts ./scripts
+cp -r -Force vendor/rahmatsyaparudin/yii2-api-skeleton/scripts/* ./scripts
 ```
 
 ## 3. Install the skeleton
