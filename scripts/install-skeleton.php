@@ -60,5 +60,5 @@ function mergeComposerDependencies($rootComposer, $skeletonComposer) {
 copyDir($vendorPath, $rootPath);
 mergeComposerDependencies($rootPath . 'composer.json', $vendorPath . 'composer.json');
 
-echo "\e[32mSkeleton installed/updated successfully.\e[0m\n";
+echo "\n\e[32mSkeleton installed/updated successfully.\e[0m\n";
 echo "\e[36mNext step:\e[0m Run \e[33mcomposer update\e[0m or \e[33mcomposer update --ignore-platform-reqs\e[0m to install new dependencies.\n";
